@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+
+# Django
+db.sqlite3
+*.log
+
+# Firebase
+firebase_key.json
+
+# OS
+.DS_Store
