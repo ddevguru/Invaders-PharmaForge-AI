@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from app.voice_agent import process_voice_input, get_welcome_message, get_language_selection_prompt
+from app.custom_voice_agent import process_voice_command, get_welcome_message, get_language_selection_prompt
 
 router = APIRouter(prefix="/ai", tags=["ai"])
 
@@ -22,7 +22,7 @@ class WelcomeResponse(BaseModel):
 @router.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     """
-    Process voice input through LangGraph workflow with Langfuse monitoring
+    Process voice input using rule-based system (NO LLM) with custom voice
     """
     if not req.text or not req.text.strip():
         raise HTTPException(status_code=400, detail="text is required")
@@ -30,11 +30,10 @@ async def chat(req: ChatRequest):
     language = req.language or "en-IN"
     
     try:
-        # Process through LangGraph workflow
-        result = process_voice_input(
-            user_input=req.text.strip(),
-            language=language,
-            chat_history=[]  # Can be extended to maintain conversation history
+        # Process using rule-based system (NO LLM)
+        result = process_voice_command(
+            text=req.text.strip(),
+            language=language
         )
         
         return ChatResponse(

@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: pharmaforge-api
+    env: python
+    region: mumbai
+    plan: starter
+    buildCommand: cd server-py && pip install -r app/requirements.txt
+    startCommand: cd server-py && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: PORT
+        value: 10000
+      - key: ALLOWED_ORIGINS
+        value: https://your-frontend-domain.onrender.com,https://your-frontend-domain.vercel.app
+      - key: OLLAMA_HOST
+        value: https://your-ollama-instance.com  # Ya external Ollama service
+      - key: OLLAMA_MODEL
+        value: llama3.2:3b
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+      - key: LANGFUSE_HOST
+        value: https://cloud.langfuse.com
+

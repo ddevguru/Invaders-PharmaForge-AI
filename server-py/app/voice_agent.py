@@ -207,11 +207,16 @@ def handle_general_query_node(state: VoiceAgentState) -> VoiceAgentState:
         response_text = response.content if hasattr(response, 'content') else str(response)
     except Exception as e:
         print(f"Error in LLM invocation: {e}")
-        # Fallback response
-        response_text = (
-            "I apologize, but I'm having trouble processing that right now. "
-            "Please try again or say 'help' for assistance."
-        )
+        # Fallback response based on language
+        if language == "hi-IN":
+            response_text = "मुझे क्षमा करें, मैं अभी उस प्रश्न का उत्तर नहीं दे सकता। कृपया बाद में कोशिश करें या 'मदद' कहें।"
+        elif language == "mr-IN":
+            response_text = "मला माफ करा, मी आत्ता त्या प्रश्नाचे उत्तर देऊ शकत नाही. कृपया नंतर प्रयत्न करा किंवा 'मदत' म्हणा."
+        else:
+            response_text = (
+                "I apologize, but I'm having trouble processing that right now. "
+                "Please try again or say 'help' for assistance."
+            )
     
     state["response"] = response_text
     state["action"] = ""
